@@ -1,23 +1,49 @@
 {% load widget_tweaks %}
+{% load humanize %}
+
 <div class="flex flex-col-reverse md:grid md:grid-cols-4 gap-4" id="transaction-container" >
         <div class="col-span-3"> 
-                {% if filter.qs %}
-                <table class="table">
+            <div class="my-4">
+                <h1 class="my-4 text-xl font-bold text-white">
+                    Totals
+                </h1>
+                <table class="table w-full border-collapse border border-gray-600">
                     <thead class="text-sm text-white uppercase">
                     <tr>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Type</th>
-                        <th>Amount</th>
+                        <th class="px-4 py-2 border-2 border-gray-400">Total Income</th>
+                        <th class="px-4 py-2 border-2 border-gray-400">Total Expenses</th>
+                        <th class="px-4 py-2 border-2 border-gray-400">Net</th>
+                    </tr>
+                    </thead>
+                     <tbody>
+                    <tr>
+                        <th class="px-4 py-2 text-green-400 border border-gray-600">₹{{total_income|floatformat:2|intcomma}}</th>
+                        <td class="px-4 py-2 text-red-400 border border-gray-600">₹{{total_expenses|floatformat:2|intcomma}}</td>
+                        <td class="px-4 py-2 text-blue-400 border border-gray-600">₹{{net_income|floatformat:2|intcomma}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+                <h1 class="my-4 text-xl font-bold text-white">
+                   Transactions
+                </h1>
+                {% if filter.qs %}
+                <table class="table border-collapse border border-gray-600">
+                    <thead class="text-sm text-white uppercase">
+                    <tr>
+                        <th class="border-2 border-gray-400">Date</th>
+                        <th class="border-2 border-gray-400">Category</th>
+                        <th class="border-2 border-gray-400">Type</th>
+                        <th class="border-2 border-gray-400">Amount</th>
                     </tr>
                     </thead>
                     <tbody>
                         {% for transaction in filter.qs %}
                     <tr>
-                        <th>{{transaction.date}}</th>
-                        <td>{{transaction.category}}</td>
-                        <td>{{transaction.type}}</td>
-                        <td>{{transaction.amount}}</td>
+                        <th class="border border-gray-600">{{transaction.date}}</th>
+                        <td class="border border-gray-600">{{transaction.category}}</td>
+                        <td class="border border-gray-600">{{transaction.type}}</td>
+                        <td class="border border-gray-600">₹{{transaction.amount|floatformat:2}}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
