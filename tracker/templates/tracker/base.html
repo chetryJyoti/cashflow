@@ -27,7 +27,7 @@
 
     {% endblock %}
 </head>
-<body>
+<body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
 
     {% include 'tracker/partials/navbar.html' %}
 
