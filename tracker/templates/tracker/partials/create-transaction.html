@@ -10,6 +10,12 @@
     <div class="mb-2 form-control text-black">
         {{ form.amount|add_label_class:'label text-white' }}
         {% render_field form.amount class="input" %}
+
+        {% for error in form.amount.errors %}
+        <p class="text-red-500 mt-1">
+            {{error}}
+        </p>
+        {% endfor %}
     </div>
     <div class="mb-2 form-control text-black">
         {{ form.date|add_label_class:'label text-white' }}
@@ -21,5 +27,8 @@
     </div>
     <button class="btn btn-success">
         Add
+    </button>
+     <button class="btn btn-error" hx-get="{% url 'transactions-list' %}" hx-target = "#transaction-block" hx-push-url="/transactions">
+        Cancel
     </button>
 </form>
