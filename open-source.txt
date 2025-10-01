@@ -1,0 +1,44 @@
+(venv) ➜  cashflow git:(master) ✗ pytest
+================================================== test session starts ==================================================
+platform darwin -- Python 3.13.5, pytest-8.4.2, pluggy-1.6.0
+django: version: 5.2.6, settings: cashflow.settings (from ini)
+rootdir: /Users/chetryjyoti/Codes/projects/Django/cashflow
+configfile: pytest.ini
+plugins: Faker-37.8.0, django-4.11.1
+collected 5 items                                                                                                       
+
+tracker/tests/test_models.py ....                                                                                 [ 80%]
+tracker/tests/test_views.py .                                                                                     [100%]
+
+=================================================== warnings summary ====================================================
+tracker/tests/test_views.py::test_total_values_appear_on_list_page
+  /Users/chetryjyoti/Codes/projects/Django/cashflow/venv/lib/python3.13/site-packages/widget_tweaks/templatetags/widget_tweaks.py:22: DeprecationWarning: 'maxsplit' is passed as positional argument
+    params = re.split(r"(?<!:):(?!:)", attr, 1)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================================================== PASSES =========================================================
+============================================= 5 passed, 1 warning in 0.29s ==============================================
+(venv) ➜  cashflow git:(master) ✗ 
+
+
+
+-- i may be able to contribute this to the project -- check it once we are FREE 
+
+⏺ The warning is from the widget_tweaks library you're using in your Django templates:
+
+  /Users/chetryjyoti/Codes/projects/Django/cashflow/venv/lib/python3.13/site-packages/widget_tweaks/templatetags/widget_tweaks.py:22:
+  DeprecationWarning: 'maxsplit' is passed as positional argument
+      params = re.split(r"(?<!:):(?!:)", attr, 1)
+
+  What it means:
+  - The widget_tweaks library is using an older Python syntax for the re.split() function
+  - In newer Python versions, the maxsplit parameter should be passed as a keyword argument
+  - This is happening when you use {% render_field %} or | add_label_class in your templates
+
+  Is it a problem?
+  - ❌ Not a critical issue - Your code works fine
+  - ⚠️ Just a deprecation warning - The library maintainers need to update their code
+  - 🔄 Will be fixed when widget_tweaks releases an update
+
+  You can ignore this warning - it's not caused by your code and doesn't affect functionality. The library just needs to update their internal code to
+  use modern Python syntax.
