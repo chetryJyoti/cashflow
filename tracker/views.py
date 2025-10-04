@@ -8,6 +8,7 @@ from django.views.decorators.http import require_http_methods
 from tracker.models import Transaction
 from tracker.forms import TransactionForm
 from tracker.filters import TransactionFilter
+from tracker.charting import plot_income_expenses_bar_chart
 
 def index(request):
     return render(request, 'tracker/index.html')
@@ -108,5 +109,12 @@ def transactions_charts(request):
         request.GET,
         queryset=Transaction.objects.filter(user=request.user).select_related("category")
     )
-    context={'filter':transaction_filter}
+    income_expenses_bar = plot_income_expenses_bar_chart(transaction_filter.qs)
+    context={
+        'filter':transaction_filter,
+        'income_expenses_barchart':income_expenses_bar.to_html()
+    }
+    if request.htmx:
+        return render(request,'tracker/partials/charts-container.html',context)
+
     return render(request,'tracker/charts.html',context)

@@ -2,12 +2,16 @@
 
 <div class="flex flex-col-reverse md:grid md:grid-cols-4 gap-4" id="charts-container">
         <div class="col-span-3"> 
-            Todo
+           {{income_expenses_barchart | safe}}
+            <div class="flex justify-center mt-4">
+                <span id="spinner" class="loading loading-dots loading-xl htmx-indicator"></span>
+            </div>
         </div>
          <div class="col-span-1"> 
                 <form hx-get="{% url "transactions-charts" %}"
                     hx-target="#charts-container"
                     hx-swap="outerHTML"
+                    hx-indicator="#spinner"
                     id="filterform"
                 >
                     <div class="mb-2 form-control"> 
