@@ -1,4 +1,6 @@
+from django.conf import settings
 from django_htmx.http import retarget
+from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -16,9 +18,14 @@ def transactions_list(request):
         request.GET,
         queryset=Transaction.objects.filter(user=request.user).select_related("category")
     )
+    
+    paginator = Paginator(transaction_filter.qs,settings.PAGE_SIZE)
+    transaction_page = paginator.page(1)
+
     total_income = transaction_filter.qs.get_total_income()
     total_expenses = transaction_filter.qs.get_total_expenses()
     context = {
+        'transactions':transaction_page,
         'filter':transaction_filter,
         'total_income':total_income,
         'total_expenses':total_expenses,
@@ -80,3 +87,17 @@ def delete_transaction(request,pk):
         "message": f"Transaction of {transaction.amount} on {transaction.date} was deleted successfully."
     }
     return render(request,'tracker/partials/transaction-success.html', context)
+
+@login_required
+def get_transactions(request):
+    page = request.GET.get('page', 1)
+    transaction_filter = TransactionFilter(
+        request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related("category")
+    )
+    paginator = Paginator(transaction_filter.qs,settings.PAGE_SIZE)
+    context = {
+        'transactions': paginator.page(page)
+    }
+    
+    return render(request,'tracker/partials/transactions-container.html#transaction_list',context)
