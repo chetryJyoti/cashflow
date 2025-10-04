@@ -21,7 +21,7 @@ def test_total_values_appear_on_list_page(user_transactions,client):
     
 # test filters
 @pytest.mark.django_db
-def test_transaction_type_filter(user_transactions,client):
+def test_transaction_type_filter(user_transactions, client):
     user = user_transactions[0].user
     client.force_login(user)
     
@@ -44,7 +44,7 @@ def test_transaction_type_filter(user_transactions,client):
         assert transaction.type == "expense"
         
 @pytest.mark.django_db
-def test_start_end_date_filter(user_transactions,client):
+def test_start_end_date_filter(user_transactions, client):
     user = user_transactions[0].user
     client.force_login(user)
     
@@ -63,7 +63,7 @@ def test_start_end_date_filter(user_transactions,client):
         assert transaction.date <= end_date_cutoff
         
 @pytest.mark.django_db
-def test_category_filter(user_transactions,client):
+def test_category_filter(user_transactions, client):
     user = user_transactions[0].user
     client.force_login(user)
     
@@ -77,7 +77,7 @@ def test_category_filter(user_transactions,client):
         assert transaction.category.pk in category_pks
 
 @pytest.mark.django_db
-def test_add_transaction_request(user,transaction_dist_params,client):
+def test_add_transaction_request(user, transaction_dist_params, client):
     client.force_login(user)
     user_transaction_count = Transaction.objects.filter(user=user).count()
 
@@ -92,7 +92,7 @@ def test_add_transaction_request(user,transaction_dist_params,client):
     assertTemplateUsed(response,'tracker/partials/transaction-success.html')
     
 @pytest.mark.django_db
-def test_cannot_add_transaction_with_negative_amount(user,transaction_dist_params,client):
+def test_cannot_add_transaction_with_negative_amount(user, transaction_dist_params, client):
     client.force_login(user)
     user_transaction_count = Transaction.objects.filter(user=user).count()
     
@@ -110,7 +110,7 @@ def test_cannot_add_transaction_with_negative_amount(user,transaction_dist_param
     assert 'HX-Retarget' in response.headers
 
 @pytest.mark.django_db
-def test_update_transaction_request(user,transaction_dist_params,client):
+def test_update_transaction_request(user, transaction_dist_params, client):
     client.force_login(user)
     assert Transaction.objects.filter(user=user).count() == 1
     transaction = Transaction.objects.first()
@@ -129,3 +129,13 @@ def test_update_transaction_request(user,transaction_dist_params,client):
     assert transaction.date == now
 
     
+@pytest.mark.django_db
+def test_delete_transaction_request(user, transaction_dist_params, client):
+    client.force_login(user)
+    assert Transaction.objects.filter(user=user).count() == 1
+    transaction = Transaction.objects.first()
+    
+    client.delete(
+        reverse('delete-transaction',kwargs={'pk':transaction.pk})
+    )
+    assert Transaction.objects.filter(user=user).count() == 0
