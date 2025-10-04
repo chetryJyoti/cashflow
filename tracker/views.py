@@ -101,3 +101,12 @@ def get_transactions(request):
     }
     
     return render(request,'tracker/partials/transactions-container.html#transaction_list',context)
+
+@login_required
+def transactions_charts(request):
+    transaction_filter = TransactionFilter(
+        request.GET,
+        queryset=Transaction.objects.filter(user=request.user).select_related("category")
+    )
+    context={'filter':transaction_filter}
+    return render(request,'tracker/charts.html',context)
