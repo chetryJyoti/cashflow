@@ -17,5 +17,5 @@
 
 <div class="mt-4">
   <button class="btn btn-success" hx-get="{% url 'create-transaction' %}" hx-target="#transaction-block">Add another</button>
-  <button hx-get="{% url 'transactions-list' %}" hx-target="#transaction-block">View Transactions</button>
+  <button hx-get="{% url 'transactions-list' %}" hx-target="#transaction-block" class="cursor-pointer ml-4">View Transactions</button>
 </div>

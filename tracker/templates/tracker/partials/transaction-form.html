@@ -1,23 +1,31 @@
-    {% load widget_tweaks %}
-    <div class="mb-2 form-control text-black">
-        {{ form.type|add_label_class:'label text-white' }}
-        {% render_field form.type class="input" %}
-    </div>
-    <div class="mb-2 form-control text-black">
-        {{ form.amount|add_label_class:'label text-white' }}
-        {% render_field form.amount class="input" %}
+{% load widget_tweaks %}
 
-        {% for error in form.amount.errors %}
-        <p class="text-red-500 mt-1">
-            {{error}}
-        </p>
-        {% endfor %}
+<div class="form-control">
+    {{ form.type|add_label_class:'label text-white font-medium mb-2' }}
+    {% render_field form.type class="select select-bordered w-full bg-gray-700 text-white border-gray-600 focus:border-green-500" %}
+</div>
+
+<div class="form-control">
+    {{ form.amount|add_label_class:'label text-white font-medium mb-2' }}
+    <div class="input-group">
+        <span class="bg-gray-700 text-white border-gray-600 px-3 flex items-center rounded-t-md">₹</span>
+        {% render_field form.amount class="input input-bordered w-full bg-gray-700 text-white border-gray-600 focus:border-green-500" placeholder="0.00" %}
     </div>
-    <div class="mb-2 form-control text-black">
-        {{ form.date|add_label_class:'label text-white' }}
-        {% render_field form.date class="input" %}
+    {% for error in form.amount.errors %}
+    <label class="label">
+        <span class="label-text-alt text-red-400">{{error}}</span>
+    </label>
+    {% endfor %}
+</div>
+
+<div class="form-control">
+    {{ form.date|add_label_class:'label text-white font-medium mb-2' }}
+    {% render_field form.date class="input input-bordered w-full bg-gray-700 text-white border-gray-600 focus:border-green-500" %}
+</div>
+
+<div class="form-control">
+    {{ form.category|add_label_class:'label text-white font-medium mb-2' }}
+    <div class="max-h-44 overflow-y-auto bg-gray-700 border border-gray-600 rounded-lg p-3">
+        {% render_field form.category class="space-y-2" %}
     </div>
-     <div class="mb-2 form-control text-black">
-        {{ form.category|add_label_class:'label text-white' }}
-        {% render_field form.category class="bg-gray-50 text-gray-900 pl-4 rounded-sm" %}
-    </div>
+</div>

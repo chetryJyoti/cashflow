@@ -1,5 +1,6 @@
 import django_filters
 from django import forms
+from datetime import date
 from tracker.models import Transaction, Category
 
 class TransactionFilter(django_filters.FilterSet):
@@ -14,14 +15,20 @@ class TransactionFilter(django_filters.FilterSet):
         field_name="date",
         lookup_expr="gte",
         label="Date From",
-        widget = forms.DateInput(attrs={"type":"date"})
+        widget = forms.DateInput(attrs={
+            "type":"date",
+            "max": date.today().isoformat()
+        })
     )
-    
+
     end_date = django_filters.DateFilter(
         field_name="date",
         lookup_expr="lte",
         label="Date To",
-        widget = forms.DateInput(attrs={"type":"date"})
+        widget = forms.DateInput(attrs={
+            "type":"date",
+            "max": date.today().isoformat()
+        })
     )
     
     category = django_filters.ModelMultipleChoiceFilter(
