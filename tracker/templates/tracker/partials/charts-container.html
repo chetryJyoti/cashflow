@@ -11,32 +11,7 @@
                 <span id="spinner" class="loading loading-dots loading-xl htmx-indicator"></span>
             </div>
         </div>
-         <div class="col-span-1"> 
-                <form hx-get="{% url "transactions-charts" %}"
-                    hx-target="#charts-container"
-                    hx-swap="outerHTML"
-                    hx-indicator="#spinner"
-                    id="filterform"
-                >
-                    <div class="mb-2 form-control"> 
-                        {{ filter.form.transaction_type | add_label_class:"label text-white" }}
-                        {% render_field filter.form.transaction_type class="select bg-gray-50 text-gray-900" %}
-                    </div>
-                     <div class="mb-2 form-control"> 
-                        {{ filter.form.start_date | add_label_class:"label text-white" }}
-                        {% render_field filter.form.start_date class="input bg-gray-50 text-gray-900" %}
-                    </div>
-                     <div class="mb-2 form-control"> 
-                        {{ filter.form.end_date | add_label_class:"label text-white" }}
-                        {% render_field filter.form.end_date class="input bg-gray-50 text-gray-900" %}
-                    </div>
-                     <div class="mb-2 form-control"> 
-                         {{ filter.form.category | add_label_class:"label text-white" }}
-                        {% render_field filter.form.category class="bg-gray-50 text-gray-900 pl-4 rounded-sm" %}
-                    </div>
-                    <button class="btn btn-success">
-                        Filter
-                    </button>
-                </form>
+         <div class="col-span-1">
+                {% include 'tracker/partials/filters-form.html' with form_action_url="transactions-charts" form_target="#charts-container" clear_action_url="transactions-charts" %}
         </div>
 </div>

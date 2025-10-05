@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django_htmx",
     "django.contrib.humanize",
     "template_partials",
+    "import_export",
     # project apps
     "tracker",
 ]
