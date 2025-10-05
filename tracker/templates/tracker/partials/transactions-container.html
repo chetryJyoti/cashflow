@@ -30,15 +30,25 @@
                  <h1 class="my-4 text-xl font-bold text-white">
                    Transactions
                 </h1>
-                <a  hx-get="{% url 'create-transaction' %}"
-                    hx-push-url = "true"
-                    hx-target = "#transaction-block"
-                    class="cursor-pointer"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10">
-                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                    </svg>
-                </a>
+                <div class="flex items-center gap-4">
+                    <a  hx-get="{% url 'create-transaction' %}"
+                        hx-push-url = "true"
+                        hx-target = "#transaction-block"
+                        class="cursor-pointer"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="green" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                        </svg>
+                    </a>
+                    <a  hx-get="{% url 'export-transactions' %}"
+                        hx-include="#filterform"
+                        class="cursor-pointer"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15M9 12l3 3m0 0 3-3m-3 3V2.25" />
+                        </svg>
+                    </a>
+                    </div>
             </div>
                
                 {% if transactions %}
