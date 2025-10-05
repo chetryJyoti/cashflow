@@ -9,5 +9,6 @@ urlpatterns = [
     path('transactions/<int:pk>/delete/',views.delete_transaction, name="delete-transaction"),
     path('get-transactions/',views.get_transactions, name="get-transactions"),
     path('transactions-charts',views.transactions_charts, name="transactions-charts"),
-    path('transactions/export',views.export_transactions, name="export-transactions")
+    path('transactions/export',views.export_transactions, name="export-transactions"),
+    path('transactions/import',views.import_transactions, name="import-transactions"),
 ]

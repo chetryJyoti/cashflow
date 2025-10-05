@@ -9,9 +9,19 @@ class TransactionResource(resources.ModelResource):
         attribute="category",
         widget=ForeignKeyWidget(Category, field="name")
     )
+    
+    def after_init_instance(self, instance, new, row, **kwargs):
+        instance.user = kwargs.get('user')
+    
     class Meta:
         model = Transaction
         fields = (
+            "amount",
+            "type",
+            "date",
+            "category"
+        )
+        import_id_fields = (
             "amount",
             "type",
             "date",

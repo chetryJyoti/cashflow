@@ -1,3 +1,4 @@
+from tablib import Dataset
 from django.conf import settings
 from django.http import HttpResponse
 from django_htmx.http import retarget
@@ -139,3 +140,24 @@ def export_transactions(request):
     respose = HttpResponse(data.csv)
     respose['Content-Disposition'] = 'attachment; filename="transactions.csv"'
     return respose
+
+@login_required
+def import_transactions(request):
+    if request.method == "POST":
+        file = request.FILES.get("file")
+        resouce = TransactionResource()
+        dataset = Dataset().load(file.read().decode(),format='csv')
+        result = resouce.import_data(dataset, user=request.user, dry_run=True, raise_errors=True)
+        
+        for row in result:
+            for error in row.errors:
+                print(f"Row {row.number}: {error.error}")
+        
+        if not result.has_errors():
+            resouce.import_data(dataset, user=request.user, dry_run=False, raise_errors=True)
+            context = {"message":f"{len(dataset)} transactions were imported successfully."}
+        else:
+            context = {"message":"There were some errors. Please check the console for more details."}
+        return render(request,'tracker/partials/transaction-success.html', context)
+            
+    return render(request,'tracker/partials/import-transactions.html')
